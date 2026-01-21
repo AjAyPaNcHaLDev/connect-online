@@ -53,6 +53,10 @@ jobs:
       - name: ⬇️ Checkout Repo
         uses: actions/checkout@v4
 
+      - name: 🔠 Lowercase Repo Name
+        run: |
+          echo "REPO_LOWER=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
       - name: 🐳 Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -70,7 +74,7 @@ jobs:
           context: .
           file: ./apps/backend/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}/backend:latest
+          tags: ghcr.io/${{ env.REPO_LOWER }}/backend:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -81,7 +85,7 @@ jobs:
           context: .
           file: ./apps/web/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}/web:latest
+          tags: ghcr.io/${{ env.REPO_LOWER }}/web:latest
           build-args: |
             NEXT_PUBLIC_BACKEND_URL=https://your-production-url.com
           cache-from: type=gha
