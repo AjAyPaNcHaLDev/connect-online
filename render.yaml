@@ -1,0 +1,29 @@
+services:
+  # Backend Service
+  - type: web
+    name: backend
+    runtime: docker
+    dockerContext: .
+    dockerfilePath: apps/backend/Dockerfile
+    envVars:
+      - key: PORT
+        value: 3001
+    plan: free # Change to starter/standard for production
+    region: singapore # Adjust as needed (e.g., oregon, frankfurt)
+
+  # Frontend Service
+  - type: web
+    name: web
+    runtime: docker
+    dockerContext: .
+    dockerfilePath: apps/web/Dockerfile
+    envVars:
+      - key: NEXT_PUBLIC_BACKEND_URL
+        fromService:
+          type: web
+          name: backend
+          property: url
+      - key: PORT
+        value: 3000
+    plan: free # Change to starter/standard for production
+    region: singapore
