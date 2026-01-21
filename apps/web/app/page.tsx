@@ -42,7 +42,7 @@ export default function Page() {
       setStatus('searching');
     });
 
-    socket.on('match_found', async ({ roomId }: { roomId: string }) => {
+    socket.on('match_found', async () => {
       setStatus('connected');
       setMessages([]); // Clear chat for new match
     });
@@ -101,13 +101,6 @@ export default function Page() {
     } catch (err) {
       console.error("Failed to get media", err);
       alert("Could not access camera/microphone");
-    }
-  };
-
-  const stopCamera = () => {
-    if (localStreamRef.current) {
-      localStreamRef.current.getTracks().forEach(track => track.stop());
-      localStreamRef.current = null;
     }
   };
 
