@@ -22,7 +22,7 @@ services:
         fromService:
           type: web
           name: backend
-          property: url
+          property: host
       - key: PORT
         value: 3000
     plan: free # Change to starter/standard for production

@@ -6,7 +6,14 @@ import { Video, Mic, MicOff, VideoOff, MessageSquare, Send, MonitorPlay, X } fro
 import styles from './page.module.css';
 
 // Environment variable for backend URL, default to localhost:3001
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+const getBackendUrl = () => {
+  const url = process.env.NEXT_PUBLIC_BACKEND_URL;
+  if (!url) return 'http://localhost:3001';
+  if (url.startsWith('http')) return url;
+  return `https://${url}`;
+};
+
+const BACKEND_URL = getBackendUrl();
 
 type Message = {
   sender: 'me' | 'partner' | 'system';
